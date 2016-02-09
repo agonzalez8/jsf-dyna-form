@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="/WEB-INF/templates/simple.xhtml">      
+    <ui:define name="title">
+        #{bundle['application.loginpage.title']}
+    </ui:define>
+    <ui:define name="content">
+
+        <h:form id="userForm">
+            <table border="1">
+                <ui:repeat var="user" value="#{userController.userList}">
+                    <tr>
+                        <td><h:inputText value="#{user.name}"/> </td>
+
+                        <ui:repeat varStatus="loop" value="#{user.emails}">
+                        <td><h:inputText value="#{user.emails[loop.index]}"/> </td>
+                        </ui:repeat>
+                    </tr>
+                </ui:repeat>
+
+                
+
+                 
+            </table>
+
+            <h:panelGrid>
+                <ui:repeat var="v" value="#{userController.values}">
+                    <h:outputLabel value="#{v.label} "></h:outputLabel>
+                    <h:inputText rendered="#{v.tipo=='input'}" value="#{v.value}"/> 
+                    <h:selectBooleanCheckbox rendered="#{v.tipo=='checkbox'}" value="#{v.value}" />
+                </ui:repeat>
+            </h:panelGrid>    
+
+            <h:commandButton value="Save" action="#{userController.action}">
+                <f:ajax execute="@form @this"/>
+            </h:commandButton>
+        </h:form>
+
+
+    </ui:define>
+</ui:composition>
+    
+</html>
